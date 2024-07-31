@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Container Report</title>
+    <style>
+        @page {
+            size: A4 portrait;
+            margin: 10mm;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .page {
+            page-break-after: always;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #000;
+        }
+
+        .header img {
+            width: 150px;
+            height: auto;
+        }
+
+        .container-content {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .left-content, .right-content {
+            width: 48%;
+        }
+
+        .left-content {
+            text-align: left;
+        }
+
+        .right-content {
+            text-align: right;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .creator-info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .creator-info-table th, .creator-info-table td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .centered-title {
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        .centered-header {
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .image-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .image-container img {
+            width: {{ image_width }}px; /* Fixe la largeur de l'image */
+            height: {{ image_height | int - 10 }}px; /* Réduit la hauteur de l'image de 10px */
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <div class="header">
+            <div>
+                {% if plant == 'BO' %}
+                    <b>BENIN ORGANICS SA</b><br>
+                {% elif plant == 'BAB' %}
+                    <b>BENIN AGRIBUSINESS SA</b><br>
+                {% else %}
+                    <b>Company Name</b><br>
+                {% endif %}
+                Glo-Djigbe Industrial Zone Benin<br>
+                Plot No. P1N-17A, Tangbo-Djevie<br>
+                Parcelle: ZA - 04BP 612 Djigbe
+            </div>
+            <img class="logo" src="{{ image_url }}" alt="Logo de l'entreprise">
+        </div>
+        <h2 class="centered-title">Container Dispatch Slip</h2>
+        <div class="container-content">
+            <div class="left-content">
+                <p><b>Booking Number:</b> {{ booking_name }}</p>
+                <p><b>Container Number:</b> {{ container_name }}</p>
+                <p><b>Arrival Date:</b> {{ arrival_date }}</p>
+                <p><b>Truck Number:</b> {{ truck_number }}</p>
+                <p><b>Loading Date:</b> {{ loading_date }}</p>
+                <p><b>Seal Date:</b> {{ seal_date }}</p>
+            </div>
+            <div class="right-content">
+                <p><b>Plant:</b> {{ plant }}</p>
+                <p><b>Product:</b> {{ product }}</p>
+                <p><b>Freight Forwarder:</b> {{ freight_forwarder }}</p>
+                <p><b>Seal Number:</b> {{ seal_number }}</p>
+                <p><b>Container Tare:</b> {{ container_tare | format_number }}</p>
+                <p><b>Weight Date:</b> {{ weight_date }}</p>
+            </div>
+        </div>
+        <table>
+            <tr>
+                <th>Bags Type</th>
+                <th>Loaded</th>
+                <th>Gross</th>
+                <th>Tare</th>
+                <th>Net</th>
+                <th>WS N°</th>
+            </tr>
+            <tr>
+                <td>{{ bags_type }}</td>
+                <td>{{ loaded | format_number }}</td>
+                <td>{{ gross | format_number }}</td>
+                <td>{{ tare | format_number }}</td>
+                <td>{{ net | format_number }}</td>
+                <td>{{ ws_number }}</td>
+            </tr>
+        </table> 
+        <div class="image-container">
+            <img src="{{ weight_image_path }}" alt="WS Image" style="width: {{ image_width }}px; height: {{ image_height }}px;">
+        </div>
+        <table class="creator-info-table">
+            <tr>
+                <th colspan="4" style="text-align: center; font-weight: bold;">Operation Done By</th>         
+               </tr>
+            <tr>
+                <th>Container</th>
+                <th>Loading</th>
+                <th>Seal</th>
+                <th>Weight</th>
+            </tr>
+            <tr>
+                <td>{{ container_creator }}</td>
+                <td>{{ loading_creator }}</td>
+                <td>{{ seal_creator }}</td>
+                <td>{{ weight_creator }}</td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

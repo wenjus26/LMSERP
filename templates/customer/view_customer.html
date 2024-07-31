@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Customer Data
+{% endblock %}
+
+{% block content %}  
+
+<div class="container">    
+    <h2>Customer Data</h2>
+    <table class="table table-striped table-bordered">
+        <tr>
+            <td><strong>Plant:</strong></td>
+            <td>{{ customer.plant }}</td>
+            <td><strong>Product:</strong></td>
+            <td>{{ customer.product }}</td>
+        </tr>
+        <tr>
+            <td><strong>Name:</strong></td>
+            <td>{{ customer.name }}</td>
+            <td><strong>Email:</strong></td>
+            <td>{{ customer.email }}</td>
+        </tr>
+        <tr>
+            <td><strong>Phone:</strong></td>
+            <td>{{ customer.phone }}</td>
+            <td><strong>Address:</strong></td>
+            <td>{{ customer.address }}</td>
+        </tr>
+        <tr>
+            <td><strong>Created At:</strong></td>
+            <td>{{ customer.created_at }}</td>
+            <td><strong>Created By:</strong></td>
+            <td>{{ customer.created_by }}</td>
+        </tr>
+    </table>
+
+{% endblock %}

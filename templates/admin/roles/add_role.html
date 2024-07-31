@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Add Role
+{% endblock %}
+
+{% block content %}
+<div class="container">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="containerModalLabel">Add Role</h5>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ url_for('add_role') }}" method="post">
+                        <div class="mb-3">
+                            <label for="name"   class="form-label">Role Name</label>
+                            <input type="text" name="name" class="form-control"  required >
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Role</button>
+                    </form>                
+                </div>
+            </div>
+    </div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Edit Loading - Gestion des Chargements
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editLoadingModalLabel">Edit Loading</h5>
+            </div>
+            <div class="modal-body">
+                <form action="{{ url_for('edit_loading', id=container.id) }}" method="post">
+                    <div class="form-group">
+                        <label for="no_of_bags">Number of Bags:</label>
+                        <input type="number" class="form-control" id="no_of_bags" name="no_of_bags" value="{{ container.no_of_bags }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="labor">Labor:</label>
+                        <input type="text" class="form-control" id="labor" name="labor" value="{{ container.labor }}" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update Loading</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

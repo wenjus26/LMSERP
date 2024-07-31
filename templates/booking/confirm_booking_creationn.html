@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Confirmation for Booking Creation
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Modal for editing customer -->
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editCustomerModalLabel">Confirm Booking Creation</h5>
+                </div>
+                <div class="modal-body">
+                    <form action="#" method="POST">
+                        <div class="form-group">
+                            <label for="plant">Plant</label>
+                            <input type="text" class="form-control" id="plant" name="plant" 
+                                   value="Plant A" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="product">Product</label>
+                            <input type="text" class="form-control" id="product" name="product" 
+                                   value="Product X" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="contract_id">Contract</label>
+                            <select class="form-control" id="contract_id" name="contract_id" disabled>
+                                <option value="1" selected>Contract 001</option>
+                                <option value="2">Contract 002</option>
+                                <!-- More options based on contracts list -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="booking_name">Booking Name</label>
+                            <input type="text" class="form-control" id="booking_name" name="booking_name" 
+                                   value="Booking XYZ" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="bag_type">Bag Type</label>
+                            <input type="text" class="form-control" id="bag_type" name="bag_type" 
+                                   value="Type A" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="container_planned">Containers Planned</label>
+                            <input type="number" class="form-control" id="container_planned" name="container_planned" 
+                                   value="10" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="quantity_planned">Quantity Planned</label>
+                            <input type="number" class="form-control" id="quantity_planned" name="quantity_planned" 
+                                   value="1000" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="container_loaded">Containers Loaded</label>
+                            <input type="number" class="form-control" id="container_loaded" name="container_loaded" 
+                                   value="5" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="quantity_loaded">Quantity Loaded</label>
+                            <input type="number" class="form-control" id="quantity_loaded" name="quantity_loaded" 
+                                   value="500" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="created_by">Created By</label>
+                            <input type="text" class="form-control" id="created_by" name="created_by" 
+                                   value="John Doe" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="freight_forwarder_id">Freight Forwarder</label>
+                            <select class="form-control" id="freight_forwarder_id" name="freight_forwarder_id" disabled>
+                                <option value="1" selected>Forwarder A</option>
+                                <option value="2">Forwarder B</option>
+                                <!-- More options based on freight forwarders list -->
+                            </select>
+                        </div>
+                        <div class="form-actions">
+                            <p>Are you sure you want to confirm this booking creation? There is no reverse!</p>
+                            <button type="submit" name="choice" value="confirm" class="btn btn-success">Confirm</button>
+                            <button type="submit" name="choice" value="cancel" class="btn btn-danger">Cancel</button>
+                        </div>
+                    </form>
+                        </div>
+            </div>
+        </div>
+</div>
+{% endblock %}

@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title %}
+    VIEW WEIGHT
+{% endblock %}
+
+{% block content %}  
+
+<div class="container"> 
+    <h1>Weight Details</h1>
+    
+    <table class="table">
+        <tr>
+            <th>Container</th>
+            <td>{{ weight.container.container_name }}</td>
+        </tr>
+        <tr>
+            <th>Gross Weight</th>
+            <td>{{ weight.gross_weight }}</td>
+        </tr>
+        <tr>
+            <th>Tare Weight</th>
+            <td>{{ weight.tare_weight }}</td>
+        </tr>
+        <tr>
+            <th>Net Weight</th>
+            <td>{{ weight.net_weight }}</td>
+        </tr>
+        <tr>
+            <th>WS Number</th>
+            <td>{{ weight.ws_number }}</td>
+        </tr>
+        <tr>
+            <th>WS Image</th>
+            <td>
+                {% if weight.ws_image %}
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#wsImageModal">View WS Image</a>
+                {% else %}
+                    No Image Available
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <th>Weight Date</th>
+            <td>{{ weight.weight_date.strftime('%Y-%m-%d') if weight.weight_date else 'None' }}</td>
+        </tr>
+        <tr>
+            <th>Created At</th>
+            <td>{{ weight.weight_created_at.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+        </tr>
+        <tr>
+            <th>Created By</th>
+            <td>{{ weight.weight_created_by }}</td>
+        </tr>
+    </table>
+
+    <a href="{{ url_for('edit_weight', id=weight.id) }}" class="btn btn-primary">Edit</a>
+    <form action="{{ url_for('delete_weight', id=weight.id) }}" method="POST" style="display:inline;">
+        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this weight record?');">Delete</button>
+    </form>
+    <a href="{{ url_for('weights') }}" class="btn btn-secondary">Back to Weights</a>
+</div>
+
+<!-- Modal for WS Image -->
+<div class="modal fade" id="wsImageModal" tabindex="-1" aria-labelledby="wsImageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="wsImageModalLabel">WS Image</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {% if weight.ws_image %}
+                    <img src="{{ url_for('static', filename='images/weight/' ~ weight.ws_image) }}" class="img-fluid" alt="WS Image">
+                {% else %}
+                    <p>No image available.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

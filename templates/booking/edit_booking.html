@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Edit Booking - Gestion des Contrats et Réservations
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editBookingModalLabel">Edit Booking</h5>
+
+            </div>
+            <div class="modal-body">
+                <form action="{{ url_for('edit_booking', id=booking.id) }}" method="POST">
+                    <div class="form-group">
+                        <label for="plant">Plant</label>
+                        <select class="form-control" id="plant" name="plant" required onchange="filterProducts()">
+                            <option value="BO" {% if booking.plant == 'BO' %}selected{% endif %}>BENIN ORGANICS</option>
+                            <option value="BAB" {% if booking.plant == 'BAB' %}selected{% endif %}>BENIN AGRIBUSINESS</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="product">Product</label>
+                        <select class="form-control" id="product" name="product" required>
+                            <!-- Options will be populated by JavaScript based on the selected plant -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="contract_id">Contract</label>
+                        <select class="form-control" id="contract_id" name="contract_id" required>
+                            <option value="">Select Contract</option>
+                            {% for contract in contracts %}
+                                <option value="{{ contract.id }}" {% if contract.id == booking.contract_id %}selected{% endif %}>{{ contract.contract_number }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="booking_name">Booking Name</label>
+                        <input type="text" class="form-control" id="booking_name" name="booking_name" value="{{ booking.booking_name }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="bag_type">Bag Type</label>
+                        <input type="text" class="form-control" id="bag_type" name="bag_type" value="{{ booking.bag_type }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="container_planned">Container Planned</label>
+                        <input type="number" class="form-control" id="container_planned" name="container_planned" value="{{ booking.container_planned }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="quantity_planned">Quantity Planned</label>
+                        <input type="number" class="form-control" id="quantity_planned" name="quantity_planned" value="{{ booking.quantity_planned }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="freight_forwarder_id">Freight Forwarder</label>
+                        <select class="form-control" id="freight_forwarder_id" name="freight_forwarder_id" required>
+                            <option value="">Select Freight Forwarder</option>
+                            {% for forwarder in freight_forwarders %}
+                                <option value="{{ forwarder.id }}" {% if forwarder.id == booking.freight_forwarder_id %}selected{% endif %}>{{ forwarder.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update Booking</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function filterProducts() {
+        const plantSelect = DOCument.getElementById('plant');
+        const productSelect = DOCument.getElementById('product');
+        const selectedPlant = plantSelect.value;
+        
+        // Clear current options
+        productSelect.innerHTML = '';
+
+        // Define options based on selected plant
+        let options = [];
+        if (selectedPlant === 'BO') {
+            options = [
+                { value: 'BO-SSO', text: 'BO-SSO' },
+                { value: 'BO-SBM', text: 'BO-SBM' }
+            ];
+        } else if (selectedPlant === 'BAB') {
+            options = [
+                { value: 'BAB-SSO', text: 'BAB-SSO' },
+                { value: 'BAB-SBM', text: 'BAB-SBM' }
+            ];
+        }
+
+        // Append new options
+        for (const option of options) {
+            const newOption = DOCument.createElement('option');
+            newOption.value = option.value;
+            newOption.text = option.text;
+            if (option.value === "{{ booking.product }}") {
+                newOption.selected = true;
+            }
+            productSelect.appendChild(newOption);
+        }
+    }
+
+    // Initialize the product options based on the current plant selection
+    DOCument.addEventListener('DOMContentLoaded', function() {
+        filterProducts();
+    });
+</script>
+{% endblock %}

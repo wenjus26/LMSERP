@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Confirm Date Information
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDateInfoModalLabel">Confirm Date Information</h5>
+            </div>
+            <div class="modal-body">
+                <form action="{{ url_for('confirm_date_info_creation') }}" method="POST">
+                    <div class="form-group">
+                        <label for="contract_number">Contract Number</label>
+                        <input type="text" class="form-control" id="contract_number" name="contract_number" value="{{ date_info_data.contract_number }}" readonly required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contract_copy_date">Contract Copy Date</label>
+                        <input type="date" class="form-control" id="contract_copy_date" name="contract_copy_date" value="{{ date_info_data.contract_copy_date }}" readonly required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signed_contract_date">Signed Contract Date</label>
+                        <input type="date" class="form-control" id="signed_contract_date" name="signed_contract_date" value="{{ date_info_data.signed_contract_date }}" readonly required>
+                    </div>
+                    <div class="form-group">
+                        <label for="si1_date">SI1 Date</label>
+                        <input type="date" class="form-control" id="si1_date" name="si1_date" value="{{ date_info_data.si1_date }}" readonly required>
+                    </div>
+                    <div class="form-group">
+                        <label for="si2_date">SI2 Date</label>
+                        <input type="date" class="form-control" id="si2_date" name="si2_date" value="{{ date_info_data.si2_date }}" readonly required>
+                    </div>
+                    <div class="form-group">
+                        <label for="si3_date">SI3 Date</label>
+                        <input type="date" class="form-control" id="si3_date" name="si3_date" value="{{ date_info_data.si3_date }}" readonly required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lc_date">LC Date</label>
+                        <input type="date" class="form-control" id="lc_date" name="lc_date" value="{{ date_info_data.lc_date }}" readonly required>
+                    </div>
+                    <div class="form-actions">
+                        <p>Are you sure you want to confirm this date information?</p>
+                        <button type="submit" name="choice" value="confirm" class="btn btn-success">Confirm</button>
+                        <button type="submit" name="choice" value="cancel" class="btn btn-danger">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Truck Drivers List - Gestion des Réservations
+{% endblock %}
+
+{% block content %} 
+    <div class="container">
+        <!-- Bouton pour ajouter un nouveau chauffeur de camion -->
+        <a href="{{ url_for('add_truck_driver') }}" class="btn btn-primary mb-2">
+            <i class="fas fa-plus"></i> Add New Truck Driver
+        </a>
+
+        <!-- Bouton pour générer le rapport local de ventes -->
+        <a href="{{ url_for('generate_sales_report') }}" class="btn btn-success mb-2">
+            <i class="fas fa-file-excel"></i> Generate Local Sales Report
+        </a>
+        <table class="table table-striped" id="truck-drivers-table">
+            <thead>
+                <tr>
+                    <th>Truck Number</th>
+                    <th>Arrival Date</th>
+                    <th>Driver Name</th>
+                    <th>Driver Phone Number</th>
+                    <th>Company</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="truck-drivers-tbody">
+                <!-- Les données seront chargées ici via AJAX -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal for viewing truck driver details -->
+    <div class="modal fade" id="viewTruckDriverModal" tabindex="-1" aria-labelledby="viewTruckDriverModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="viewTruckDriverModalLabel">Truck Driver Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="truck-driver-details">
+                        <!-- Les détails seront chargés ici via AJAX -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Inclure jQuery et Bootstrap JS pour AJAX et modal functionality -->
+    <script>
+        $(document).ready(function() {
+            // Récupérer les données passées depuis Flask
+            var truckDriversData = {{ truck_drivers | tojson | safe }};
+            
+            // Initialise DataTables pour les truck drivers
+            $('#truck-drivers-table').DataTable({
+                data: truckDriversData,
+                columns: [
+                    { data: 'truck_number', title: 'Truck Number' },
+                    { data: 'arrival_date', title: 'Arrival Date' },
+                    { data: 'driver_name', title: 'Driver Name' },
+                    { data: 'driver_phone_number', title: 'Driver Phone Number' },
+                    { data: 'company', title: 'Company' },
+                    {
+                        // Colonne des actions avec des boutons
+                        data: null,
+                        title: 'Actions',
+                        render: function(data, type, row) {
+                            let generatePdfButton = '';
+    
+                            if (row.all_data_filled) {
+                                generatePdfButton = `
+                                    <a href="/generate_local_sales_pdf/${row.id}" title="Generate PDF" class="btn btn-info btn-sm">  
+                                        <i class="fas fa-file-pdf"></i>
+                                    </a>
+                                `;
+                            }
+    
+                            return `
+                                <a href="/localeSales/truck_drivers/${row.id}/view" title="View" class="btn btn-primary btn-sm">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="/localeSales/truck_drivers/${row.id}/edit" title="Edit" class="btn btn-warning btn-sm">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                ${generatePdfButton}
+                                <form action="/localeSales/truck_drivers/${row.id}/delete" method="post" style="display:inline;">
+                                    <button type="submit" class="btn btn-danger btn-sm" title="Delete">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            `;
+                        }
+                    }
+                ],
+                responsive: true,
+                scrollY: "250px", // Définir une hauteur de défilement si nécessaire
+                scrollCollapse: true,
+                paging: true,
+                fixedHeader: true // Activer l'en-tête fixe
+            });
+        });
+    </script>
+    
+
+
+{% endblock %}

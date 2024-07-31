@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Add Seal
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Add Seal</h1>
+    <form action="{{ url_for('add_seal', container_id=container_id) }}" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="seal_number">Seal Number</label>
+            <input type="text" class="form-control" id="seal_number" name="seal_number" required>
+        </div>
+        <div class="form-group">
+            <label for="seal_image">Seal Image</label>
+            <input type="file" class="form-control" id="seal_image" name="seal_image" accept="image/*">
+        </div>
+        <div class="form-group">
+            <label for="seal_date">Seal Date</label>
+            <input type="date" class="form-control" id="seal_date" name="seal_date" required>
+        </div>
+    
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="paymentInfoModalLabel">Add Payment Information</h5>
+            </div>
+            <div class="modal-body">
+                <form action="{{ url_for('add_payment_info', contract_id=contract_id) }}" method="POST">
+                    <div class="form-group">
+                        <label for="payment_term">Payment Term</label>
+                        <input type="text" class="form-control" id="payment_term" name="payment_term" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="price">Price</label>
+                        <input type="text" class="form-control" id="price" name="price" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </form>
+                <a href="{{ url_for('view_contract', id=contract.id) }}" class="btn btn-secondary mt-2">Back to Contract</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

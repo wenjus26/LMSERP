@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Edit Customer - Gestion des Clients
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editCustomerModalLabel">Edit Customer Information</h5>
+           </div>
+            <div class="modal-body">
+                <form action="{{ url_for('edit_customer', id=customer.id) }}" method="POST">
+                    <div class="form-group">
+                        <label for="plant">Plant</label>
+                        <select class="form-control" id="plant" name="plant" required onchange="filterProducts()">
+                            <option value="BO" {% if customer.plant == 'BO' %}selected{% endif %}>BENIN ORGANICS</option>
+                            <option value="BAB" {% if customer.plant == 'BAB' %}selected{% endif %}>BENIN AGRIBUSINESS</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="product">Product</label>
+                        <select class="form-control" id="product" name="product" required>
+                            <!-- Options will be populated by JavaScript based on the selected plant -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" id="name" name="name" value="{{ customer.name }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" value="{{ customer.email }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone</label>
+                        <input type="number" class="form-control" id="phone" name="phone" value="{{ customer.phone }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <input type="text" class="form-control" id="address" name="address" value="{{ customer.address }}" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function filterProducts() {
+        const plantSelect = DOCument.getElementById('plant');
+        const productSelect = DOCument.getElementById('product');
+        const selectedPlant = plantSelect.value;
+        
+        // Clear current options
+        productSelect.innerHTML = '';
+
+        // Define options based on selected plant
+        let options = [];
+        if (selectedPlant === 'BO') {
+            options = [
+                { value: 'BO-SSO', text: 'BO-SSO' },
+                { value: 'BO-SBM', text: 'BO-SBM' }
+            ];
+        } else if (selectedPlant === 'BAB') {
+            options = [
+                { value: 'BAB-SSO', text: 'BAB-SSO' },
+                { value: 'BAB-SBM', text: 'BAB-SBM' }
+            ];
+        }
+
+        // Append new options
+        for (const option of options) {
+            const newOption = DOCument.createElement('option');
+            newOption.value = option.value;
+            newOption.text = option.text;
+            productSelect.appendChild(newOption);
+        }
+
+        // Re-select the current product if applicable
+        const currentProduct = "{{ customer.product }}";
+        if (currentProduct) {
+            productSelect.value = currentProduct;
+        }
+    }
+
+    // Initial call to populate product dropdown based on the default plant
+    DOCument.addEventListener('DOMContentLoaded', function() {
+        filterProducts();
+    });
+</script>
+{% endblock %}
+
+
+
+
+

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Add Date Information - Your App
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="dateInfoModalLabel">Add Date Information</h5>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{{ url_for('add_date_info', contract_id=contract.id) }}">
+                    <div class="form-group">
+                        <label for="contract_copy_date">Contract Copy Date</label>
+                        <input type="date" class="form-control" id="contract_copy_date" name="contract_copy_date" >
+                    </div>
+                    <div class="form-group">
+                        <label for="signed_contract_date">Signed Contract Date</label>
+                        <input type="date" class="form-control" id="signed_contract_date" name="signed_contract_date" >
+                    </div>
+                    <div class="form-group">
+                        <label for="si1_date">SI1 Date</label>
+                        <input type="date" class="form-control" id="si1_date" name="si1_date" >
+                    </div>
+                    <div class="form-group">
+                        <label for="si2_date">SI2 Date</label>
+                        <input type="date" class="form-control" id="si2_date" name="si2_date" >
+                    </div>
+                    <div class="form-group">
+                        <label for="si3_date">SI3 Date</label>
+                        <input type="date" class="form-control" id="si3_date" name="si3_date">
+                    </div>
+                    <div class="form-group">
+                        <label for="lc_date">LC Date</label>
+                        <input type="date" class="form-control" id="lc_date" name="lc_date" >
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </form>
+                <a href="{{ url_for('view_contract', id=contract.id) }}" class="btn btn-secondary mt-2">Back to Contract</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Edit Truck Driver - Gestion des Conducteurs
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h3>Edit Truck Driver</h3>
+        <form action="{{ url_for('edit_truck_driver', id=truck_driver.id) }}" method="POST">
+            <div class="form-group">
+                <label for="truck_number">Truck Number</label>
+                <input type="text" class="form-control" id="truck_number" name="truck_number" value="{{ truck_driver.truck_number }}" required>
+            </div>
+            <div class="form-group">
+                <label for="arrival_date">Arrival Date</label>
+                <input type="date" class="form-control" id="arrival_date" name="arrival_date" value="{{ truck_driver.arrival_date.strftime('%Y-%m-%d') }}" required>
+            </div>
+            <div class="form-group">
+                <label for="driver_name">Driver Name</label>
+                <input type="text" class="form-control" id="driver_name" name="driver_name" value="{{ truck_driver.driver_name }}" required>
+            </div>
+            <div class="form-group">
+                <label for="driver_phone_number">Driver Phone Number</label>
+                <input type="text" class="form-control" id="driver_phone_number" name="driver_phone_number" value="{{ truck_driver.driver_phone_number }}" required>
+            </div>
+            <div class="form-group">
+                <label for="company">Company</label>
+                <input type="text" class="form-control" id="company" name="company" value="{{ truck_driver.company }}" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Update</button>
+        </form>
+    </div>
+{% endblock %}

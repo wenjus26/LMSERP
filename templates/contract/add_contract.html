@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Add Contract - Gestion des Contrats et Réservations
+{% endblock %}
+
+{% block content %}
+ 
+    <!-- Modal for adding contract -->
+    <div >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="contractModalLabel">Add Contract Information</h5>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ url_for('add_contract') }}" method="POST">
+                        <div class="form-group">
+                            <label for="contract_number">Contract Number</label>
+                            <input type="text" class="form-control" id="contract_number" name="contract_number" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="plant">Plant</label>
+                            <select class="form-control" id="plant" name="plant" required onchange="filterProducts()">
+                                <option value="BO">BENIN ORGANICS</option>
+                                <option value="BAB">BENIN AGRIBUSINESS</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="product">Product</label>
+                            <select class="form-control" id="product" name="product" required>
+                                <!-- Options will be populated based on selected plant -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="customer_id">Customer</label>
+                            <select class="form-control" id="customer_id" name="customer_id" required>
+                                <option value="">Select Customer</option>
+                                {% for customer in customers %}
+                                    <option value="{{ customer.id }}">{{ customer.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="shipment_start_date">Shipment Start Date</label>
+                            <input type="date" class="form-control" id="shipment_start_date" name="shipment_start_date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="shipment_end_date">Shipment End Date</label>
+                            <input type="date" class="form-control" id="shipment_end_date" name="shipment_end_date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="destination">Destination</label>
+                            <input type="text" class="form-control" id="destination" name="destination" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="bag_type">Bag Type</label>
+                            <input type="text" class="form-control" id="bag_type" name="bag_type" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contract_qty">Contract Quantity</label>
+                            <input type="number" class="form-control" id="contract_qty" name="contract_qty" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="booking_planned">Booking Planned</label>
+                            <input type="number" class="form-control" id="booking_planned" name="booking_planned" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

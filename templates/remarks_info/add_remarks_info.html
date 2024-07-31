@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Add Remarks Information
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="remarksInfoModalLabel">Add Remarks Information</h5>
+            </div>
+            <div class="modal-body">
+                <form action="{{ url_for('add_remarks_info', contract_id=contract.id) }}"  method="POST">
+                    <div class="form-group">
+                        <label for="first_remarks">First Remarks</label>
+                        <input type="text" class="form-control" id="first_remarks" name="first_remarks" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="second_remarks">Second Remarks</label>
+                        <input type="text" class="form-control" id="second_remarks" name="second_remarks" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </form>
+                <a href="{{ url_for('view_contract', id=contract.id) }}" class="btn btn-secondary mt-2">Back to Contract</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Edit Container - Gestion des Conteneurs
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editContainerModalLabel">Edit Container</h5>
+            </div>
+            <div class="modal-body">
+                <form action="{{ url_for('edit_container', id=container.id) }}" method="POST">
+                    <div class="form-group">
+                        <label for="plant">Plant</label>
+                        <select class="form-control" id="plant" name="plant" required onchange="filterProducts()">
+                            <option value="BO" {% if container.plant == 'BO' %}selected{% endif %}>BENIN ORGANICS</option>
+                            <option value="BAB" {% if container.plant == 'BAB' %}selected{% endif %}>BENIN AGRIBUSINESS</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="product">Product</label>
+                        <select class="form-control" id="product" name="product" required>
+                            <!-- Options will be populated by JavaScript based on the selected plant -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="freight_forwarder">Freight Forwarder</label>
+                        <input type="text" class="form-control" id="freight_forwarder" name="freight_forwarder" value="{{ container.freight_forwarder }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="booking_id">Booking</label>
+                        <select class="form-control" id="booking_id" name="booking_id" required>
+                            {% for booking in bookings %}
+                                <option value="{{ booking.id }}" {% if booking.id == container.booking_id %}selected{% endif %}>{{ booking.booking_name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="container_tare">Container Tare</label>
+                        <input type="number" class="form-control" id="container_tare" name="container_tare" value="{{ container.container_tare }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="bags_type">Bags Type</label>
+                        <input type="text" class="form-control" id="bags_type" name="bags_type" value="{{ container.bags_type }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="truck_number">Truck Number</label>
+                        <input type="text" class="form-control" id="truck_number" name="truck_number" value="{{ container.truck_number }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="container_name">Container Name</label>
+                        <input type="text" class="form-control" id="container_name" name="container_name" value="{{ container.container_name }}" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update Container</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function filterProducts() {
+        const plantSelect = DOCument.getElementById('plant');
+        const productSelect = DOCument.getElementById('product');
+        const selectedPlant = plantSelect.value;
+        
+        // Clear current options
+        productSelect.innerHTML = '';
+
+        // Define options based on selected plant
+        let options = [];
+        if (selectedPlant === 'BO') {
+            options = [
+                { value: 'BO-SSO', text: 'BO-SSO' },
+                { value: 'BO-SBM', text: 'BO-SBM' }
+            ];
+        } else if (selectedPlant === 'BAB') {
+            options = [
+                { value: 'BAB-SSO', text: 'BAB-SSO' },
+                { value: 'BAB-SBM', text: 'BAB-SBM' }
+            ];
+        }
+
+        // Append new options
+        for (const option of options) {
+            const newOption = DOCument.createElement('option');
+            newOption.value = option.value;
+            newOption.text = option.text;
+            if (option.value === "{{ container.product }}") {
+                newOption.selected = true;
+            }
+            productSelect.appendChild(newOption);
+        }
+    }
+
+    // Initialize the product options based on the current plant selection
+    DOCument.addEventListener('DOMContentLoaded', function() {
+        filterProducts();
+    });
+</script>
+{% endblock %}

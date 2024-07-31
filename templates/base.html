@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Logistic system</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+    <!-- Inclusion de jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- Inclusion de Datatables CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+    <!-- Inclusion de Datatables JS -->
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+    <!-- Inclusion de Datatables Responsive CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
+    <!-- Inclusion de Datatables Responsive JS -->
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+    
+    <!-- Font family -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wdth,wght@0,75..100,300..800;1,75..100,300..800&display=swap" rel="stylesheet"> 
+
+    <!-- Icon Font Stylesheet -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">    
+</head>
+
+<body>
+
+    <!-- Spinner Start -->
+    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <!-- Spinner End -->
+
+    <!-- Navbar & Hero Start -->
+    <div class="container-fluid nav-bar sticky-top px-4 py-2 py-lg-0">
+        <nav class="navbar navbar-expand-lg navbar-light custom-navbar">
+            <a href="#" class="navbar-brand p-0">
+                <h1 class="display-6 text-dark">
+                    <img src="/static/lms.png" alt="LMS Logo" class="logo-img"> <!-- Assure-toi que le chemin est correct -->
+                </h1>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="fa fa-bars"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="navbar-nav mx-auto py-0">
+                    <a href="/" class="nav-item nav-link">Home</a>
+                    
+                    <!-- Operations Management -->
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Operations Management</a>
+                        <div class="dropdown-menu m-0">
+                            <!-- Contracts Submenu -->
+                            <h6 class="dropdown-header">Contracts</h6>
+                            <a href="{{ url_for('contracts') }}" class="dropdown-item">Manage Contracts</a>
+                            <a href="{{ url_for('add_contract') }}" class="dropdown-item">Add Contract</a>
+                            
+                            <!-- Containers Submenu -->
+                            <h6 class="dropdown-header">Containers</h6>
+                            <a href="{{ url_for('containers') }}" class="dropdown-item">Manage Containers</a>
+                            <a href="{{url_for('report_container')}}" class="dropdown-item">Container Reports</a>
+                            
+                            <!-- Bookings Submenu -->
+                            <h6 class="dropdown-header">Bookings</h6>
+                            <a href="{{ url_for('bookings') }}" class="dropdown-item">Manage Bookings</a>
+                            <a href="{{url_for('report_booking')}}" class="dropdown-item">Booking Reports</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Client Management -->
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Client Management</a>
+                        <div class="dropdown-menu m-0">
+                            <!-- Customers Submenu -->
+                            <h6 class="dropdown-header">Customers</h6>
+                            <a href="{{ url_for('add_customer') }}" class="dropdown-item">Add Customer</a>
+                            <a href="{{ url_for('customers') }}" class="dropdown-item">Manage Customers</a>                                
+                            <!-- Freight Forwarders Submenu -->
+                            <h6 class="dropdown-header">Freight Forwarders</h6>
+                            <a href="{{ url_for('add_freight_forwarder') }}" class="dropdown-item">Add Freight Forwarder</a>
+                            <a href="{{ url_for('freight_forwarders') }}" class="dropdown-item">Manage Freight Forwarders</a>
+                        </div>
+                    </div>
+
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Warehouse</a>
+                        <div class="dropdown-menu m-0">
+                            <!-- Customers Submenu -->
+                            <h6 class="dropdown-header">SoyaBeans Meal Sales</h6>
+                            <a href="{{ url_for('list_truck_drivers') }}" class="dropdown-item">Manage Locale Sales</a>
+                             <a href="freight_forwarders" class="dropdown-item">Other</a>
+                        </div>
+                    </div>
+        
+                    <!-- Support -->
+                    {% if current_user.is_authenticated and current_user.has_role('System Administrator') %}
+                        <a href="{{ url_for('admin_interface') }}" class="nav-item nav-link">Admin</a>
+                    {% endif %}
+
+                </div>
+                <div class="d-flex ">
+                    <!-- User Icon and Dropdown Menu -->
+                    <div class="dropdown me-3">
+                        {% if current_user.is_authenticated %}
+                        <a href="#" class="btn btn-light rounded-circle dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/change_password">Change Password</a></li>
+                            <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                        </ul>
+                        {% else %}
+                            <a href="{{ url_for('login') }}" class="btn btn-light rounded-circle">
+                            <i class="fas fa-sign-in-alt"></i> Login
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% set last_message = messages[-1] %}
+            <div class="flash-message">
+                <div style="padding: 10px; border-radius: 5px; margin-bottom: 5px; color: #fff;
+                            {% if last_message[0] == 'success' %}
+                                background-color: #28a745;
+                            {% elif last_message[0] == 'error' %}
+                                background-color: #dc3545;
+                            {% elif last_message[0] == 'warning' %}
+                                background-color: #ffc107;
+                            {% elif last_message[0] == 'info' %}
+                                background-color: #17a2b8;
+                            {% endif %}">
+                    <span>{{ last_message[1] }}</span>
+                </div>
+            </div>
+        {% endif %} <br><br>
+    {% endwith %}
+        
+    </div>
+    <!-- Navbar & Hero End -->
+
+    {% block content %}{% endblock %}
+
+    <!-- JavaScript Libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#example').DataTable();
+        });
+
+        function filterProducts() {
+            const plantSelect = document.getElementById('plant');
+            const productSelect = document.getElementById('product');
+            const selectedPlant = plantSelect.value;
+            
+            // Clear current options
+            productSelect.innerHTML = '';
+    
+            // Define options based on selected plant
+            let options = [];
+            if (selectedPlant === 'BO') {
+                options = [
+                    { value: 'BO-SSO', text: 'BO-SSO' },
+                    { value: 'BO-SBM', text: 'BO-SBM' }
+                ];
+            } else if (selectedPlant === 'BAB') {
+                options = [
+                    { value: 'BAB-SSO', text: 'BAB-SSO' },
+                    { value: 'BAB-SBM', text: 'BAB-SBM' }
+                ];
+            }
+    
+            // Append new options
+            for (const option of options) {
+                const newOption = document.createElement('option');
+                newOption.value = option.value;
+                newOption.text = option.text;
+                productSelect.appendChild(newOption);
+            }
+        }
+
+        // Initial call to populate product dropdown based on the default plant
+    </script>    
+
+</body>
+
+</html>

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Edit Loading Info
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Edit Loading Info</h2>
+    <form action="{{ url_for('edit_loading_info', id=loading_info.id) }}" method="POST">
+        <div class="form-group">
+            <label for="truck_id">Truck ID</label>
+            <input type="text" class="form-control" id="truck_id" name="truck_id" value="{{ loading_info.truck_id }}" required>
+        </div>
+        <div class="form-group">
+            <label for="bag_type">Bag Type</label>
+            <input type="text" class="form-control" id="bag_type" name="bag_type" value="{{ loading_info.bag_type }}" required>
+        </div>
+        <div class="form-group">
+            <label for="no_of_bags">Number of Bags</label>
+            <input type="number" class="form-control" id="no_of_bags" name="no_of_bags" value="{{ loading_info.no_of_bags }}" required>
+        </div>
+        <div class="form-group">
+            <label for="labour_contract">Labour Contract</label>
+            <input type="text" class="form-control" id="labour_contract" name="labour_contract" value="{{ loading_info.labour_contract }}" required>
+        </div>
+        <div class="form-group">
+            <label for="loading_date">Loading Date</label>
+            <input type="date" class="form-control" id="loading_date" name="loading_date" value="{{ loading_info.loading_date.strftime('%Y-%m-%d') }}" required>
+        </div>
+        <div class="form-group">
+            <label for="destination">Destination</label>
+            <input type="text" class="form-control" id="destination" name="destination" value="{{ loading_info.destination }}" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,307 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Admin Interface
+{% endblock %}
+
+{% block content %}
+<style>
+    /* styles.css */
+
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        color: #333;
+    }
+
+    header {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 0;
+        text-align: center;
+    }
+
+    nav ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    nav ul li {
+        display: inline;
+        margin: 0 15px;
+    }
+
+    nav ul li a {
+        color: white;
+        text-decoration: none;
+    }
+
+    .container {
+        padding: 20px;
+    }
+
+    .cards-grid {
+        display: grid;
+        gap: 15px;
+    }
+
+    .card {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 15px;
+        margin: 15px;
+        box-sizing: border-box;
+        color: #333;
+        transition: background-color 0.3s ease;
+        min-height: 120px;
+    }
+
+    .card h5 {
+        margin-top: 0;
+    }
+
+    .card ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .card ul li {
+        margin-bottom: 10px;
+    }
+
+    /* Color variables */
+    :root {
+        --color-card-1: #e3f2fd; /* Light Blue */
+        --color-card-2: #fce4ec; /* Light Pink */
+        --color-card-3: #e8f5e9; /* Light Green */
+        --color-card-4: #fffde7; /* Light Yellow */
+        --color-card-5: #d1c4e9; /* Light Purple */
+        --color-card-6: #ffccbc; /* Light Orange */
+        --color-card-7: #dbeafe; /* Light Sky Blue */
+        --color-card-8: #e6ee9c; /* Light Lime */
+        --color-card-9: #ffebee; /* Light Red */
+        --color-card-10: #f0f4c3; /* Light Lime Green */
+    }
+
+    /* Grid layout for cards */
+    @media (min-width: 1024px) {
+        .cards-grid {
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
+
+    @media (min-width: 768px) and (max-width: 1023px) {
+        .cards-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 767px) {
+        .cards-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    /* Applying colors to cards */
+    .card:nth-child(1) {
+        background-color: var(--color-card-1);
+    }
+
+    .card:nth-child(2) {
+        background-color: var(--color-card-2);
+    }
+
+    .card:nth-child(3) {
+        background-color: var(--color-card-3);
+    }
+
+    .card:nth-child(4) {
+        background-color: var(--color-card-4);
+    }
+
+    .card:nth-child(5) {
+        background-color: var(--color-card-5);
+    }
+
+    .card:nth-child(6) {
+        background-color: var(--color-card-6);
+    }
+
+    .card:nth-child(7) {
+        background-color: var(--color-card-7);
+    }
+
+    .card:nth-child(8) {
+        background-color: var(--color-card-8);
+    }
+
+    .card:nth-child(9) {
+        background-color: var(--color-card-9);
+    }
+
+    .card:nth-child(10) {
+        background-color: var(--color-card-10);
+    }
+
+    footer {
+        background-color: #4CAF50;
+        color: white;
+        text-align: center;
+        padding: 10px 0;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+    }
+
+    /* Table styles */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #4CAF50;
+        color: white;
+    }
+</style>
+<div class="container">
+    <h2>Roles and Actions</h2>
+    <table>
+        <caption>Roles and Actions Overview</caption>
+        <thead>
+            <tr>
+                <th>Role</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>None</td>
+                <td>home, login, logout, register, change_password</td>
+            </tr>
+            <tr>
+                <td>System Administrator</td>
+                <td>
+                    export_logs_to_excel, list_users, add_user, edit_user, delete_user, list_roles, add_role, edit_role, delete_role, assign_role, edit_roles, remove_role, add_customer, confirm_customer_creation, edit_customer, delete_customer, customers, view_customer,
+                    add_freight_forwarder, confirm_freight_forwarder_creation, edit_freight_forwarder, delete_freight_forwarder, freight_forwarders, view_freight_forwarder,
+                    add_contract, confirm_contract_creation, edit_contract, delete_contract, contracts, view_contract
+                </td>
+            </tr>
+            <tr>
+                <td>Logistics Manager</td>
+                <td>
+                    add_freight_forwarder, confirm_freight_forwarder_creation, edit_freight_forwarder, delete_freight_forwarder, freight_forwarders, view_freight_forwarder,
+                    add_contract, confirm_contract_creation, edit_contract, delete_contract, contracts, view_contract,
+                    add_booking, confirm_booking_creation, edit_booking, delete_booking, view_booking,
+                    add_container, confirm_container_creation, edit_container, delete_container, view_container, containers,
+                    add_loading, confirm_loading_creation, edit_loading, delete_loading, view_loading,
+                    add_seal, confirm_create_seal, edit_seal, delete_seal, view_seal,
+                    add_weight, confirm_create_weight, edit_weight, delete_weight, view_weight,
+                    add_truck_driver, confirm_truck_driver_creation, edit_truck_driver, delete_truck_driver, view_truck_driver, list_truck_drivers
+                </td>
+            </tr>
+            <tr>
+                <td>Warehouse Manager</td>
+                <td>
+                    add_container, confirm_container_creation, edit_container, delete_container, view_container, containers,
+                    add_loading, confirm_loading_creation, edit_loading, delete_loading, view_loading,
+                    add_seal, confirm_create_seal, edit_seal, delete_seal, view_seal,
+                    add_weight, confirm_create_weight, edit_weight, delete_weight, view_weight,
+                    add_truck_driver, confirm_truck_driver_creation, edit_truck_driver, delete_truck_driver, view_truck_driver, list_truck_drivers
+                </td>
+            </tr>
+            <tr>
+                <td>Sales Manager</td>
+                <td>
+                    view_truck_driver, list_truck_drivers
+                </td>
+            </tr>
+            <tr>
+                <td>Logistics Data Analyst</td>
+                <td>contracts, bookings, containers</td>
+            </tr>
+            <tr>
+                <td>Customer Support Representative</td>
+                <td>view_customer, view_freight_forwarder, view_contract, view_booking, view_container, view_loading, view_seal, view_weight</td>
+            </tr>
+            <tr>
+                <td>Warehouse Operator</td>
+                <td>
+                    add_container, confirm_container_creation, edit_container, delete_container, view_container, containers,
+                    add_loading, confirm_loading_creation, edit_loading, delete_loading, view_loading,
+                    add_seal, confirm_create_seal, edit_seal, delete_seal, view_seal,
+                    add_weight, confirm_create_weight, edit_weight, delete_weight, view_weight
+                </td>
+            </tr>
+            <tr>
+                <td>Inventory Manager</td>
+                <td>
+                    view_container, containers,
+                    view_loading, view_seal, view_weight
+                </td>
+            </tr>
+            <tr>
+                <td>Transportation Coordinator</td>
+                <td>
+                    add_freight_forwarder, confirm_freight_forwarder_creation, edit_freight_forwarder, delete_freight_forwarder, freight_forwarders,
+                    add_container, confirm_container_creation, edit_container, delete_container, view_container, containers,
+                    add_loading, confirm_loading_creation, edit_loading, delete_loading, view_loading,
+                    add_seal, confirm_create_seal, edit_seal, delete_seal, view_seal,
+                    add_weight, confirm_create_weight, edit_weight, delete_weight, view_weight
+                </td>
+            </tr>
+            <tr>
+                <td>Purchasing Manager</td>
+                <td>
+                    add_contract, confirm_contract_creation, edit_contract, delete_contract, contracts, view_contract,
+                    add_booking, confirm_booking_creation, edit_booking, delete_booking, view_booking,
+                    add_container, confirm_container_creation, edit_container, delete_container, view_container, containers
+                </td>
+            </tr>
+            <tr>
+                <td>Manager</td>
+                <td>
+                    add_contract, confirm_contract_creation, edit_contract, delete_contract, contracts, view_contract,
+                    add_booking, confirm_booking_creation, edit_booking, delete_booking, view_booking,
+                    add_container, confirm_container_creation, edit_container, delete_container, view_container, containers,
+                    add_loading, confirm_loading_creation, edit_loading, delete_loading, view_loading,
+                    add_seal, confirm_create_seal, edit_seal, delete_seal, view_seal,
+                    add_weight, confirm_create_weight, edit_weight, delete_weight, view_weight
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="containerModalLabel">Add Container</h5>
+                </div>
+                <a href="{{ url_for('list_roles') }}" class="btn btn-primary mb-2 mx-1">Roles Management</a>
+                <a href="{{ url_for('list_users') }}" class="btn btn-secondary mb-2 mx-1">User Management</a>
+                <a href="{{ url_for('export_excel') }}" class="btn btn-secondary mb-2 mx-1">Shipment Report</a>
+            
+                <a href="/admin" class="btn btn-success mb-2 mx-1">Espace admin</a>
+            
+                <a href="/users" class="btn btn-warning mb-2 mx-1">Liste des utilisateurs</a>
+                <a href="/users/add" class="btn btn-danger mb-2 mx-1">Ajouter un utilisateur</a>
+                <a href="/roles" class="btn btn-primary mb-2 mx-1">Liste des rôles</a>
+                <a href="/roles/add" class="btn btn-secondary mb-2 mx-1">Ajouter un rôle</a>
+            
+                <div class="modal-body">
+
+                </div>
+            </div>
+        </div>
+</div>
+{% endblock %}

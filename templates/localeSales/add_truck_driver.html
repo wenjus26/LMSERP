@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Add Truck Driver - Gestion des Réservations
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="truckDriverModalLabel">Add Truck Driver</h3>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="{{ url_for('add_truck_driver') }}">
+                        <div class="form-group">
+                            <label for="truck_number">Truck Number</label>
+                            <input type="text" class="form-control" id="truck_number" name="truck_number" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="arrival_date">Arrival Date</label>
+                            <input type="date" class="form-control" id="arrival_date" name="arrival_date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="driver_name">Driver Name</label>
+                            <input type="text" class="form-control" id="driver_name" name="driver_name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="driver_phone_number">Driver Phone Number</label>
+                            <input type="text" class="form-control" id="driver_phone_number" name="driver_phone_number" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="company">Company</label>
+                            <input type="text" class="form-control" id="company" name="company" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Preview</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <a href="{{ url_for('list_truck_drivers') }}" class="btn btn-secondary">Back to List</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

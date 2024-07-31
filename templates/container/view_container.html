@@ -1,0 +1,201 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Container Details
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 style="
+    font-size: 2.5rem; /* Taille de la police de l'en-tête */
+    text-align: center; /* Centre le texte horizontalement */
+    margin-bottom: 30px; /* Espacement inférieur de l'en-tête */
+    color: #142638; /* Couleur du texte */
+    font-weight: bold; /* Poids de la police pour un texte en gras */
+    ">
+    Container {{ container.container_name }} Details Data Table
+</h1>    
+    <table class="table table-striped table-bordered dataTable">
+        <!-- Container Details -->
+        <tr>
+            <td>Arrival Date:</td>
+            <td>{{ container.arrival_date.strftime('%Y-%m-%d') }}</td>
+            <td>Truck Number:</td>
+            <td>{{ container.truck_number }}</td>
+        </tr>
+        <tr>
+            <td>Container Name:</td>
+            <td>{{ container.container_name }}</td>
+            <td>Container Tare:</td>
+            <td>{{ container.container_tare }} kg</td>
+        </tr>
+        <tr>
+            <td>Product:</td>
+            <td>{{ container.product }}</td>
+            <td>Freight Forwarder:</td>
+            <td>{{ container.freight_forwarder }}</td>
+        </tr>
+        <tr>
+            <td>Plant:</td>
+            <td>{{ container.plant }}</td>
+            <td>Bag Type:</td>
+            <td>{{ container.bags_type }}</td>
+        </tr>
+        
+        <!-- Loading Details -->
+        <tr>
+            <td>Number of Bags:</td>
+            <td>{{ loading.no_of_bags if loading else 'Pending' }}</td>
+            <td>Loading Date:</td>
+            <td>{{ loading.loading_created_at.strftime('%Y-%m-%d') if loading else 'Pending' }}</td>
+        </tr>
+        
+        <!-- Seal Details -->
+        <tr>
+            <td>Seal Number:</td>
+            <td>{{ seal.seal_number if seal else 'Pending' }}</td>
+            <td>Seal Date:</td>
+            <td>{{ seal.seal_date.strftime('%Y-%m-%d') if seal else 'Pending' }}</td>
+        </tr>
+        <tr>
+            <td>Seal Image:</td>
+            <td>
+                {% if seal and seal.seal_image %}
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#sealImageModal">
+                        <i class="fas fa-image"></i> View Seal Image
+                    </a>
+                {% else %}
+                    <p>No image uploaded.</p>
+                {% endif %}
+            </td>
+        </tr>
+        
+        <!-- Weight Details -->
+        <tr>
+            <td>Gross Weight:</td>
+            <td>{{ weight.gross_weight if weight else 'Pending' }} kg</td>
+            <td>Tare Weight:</td>
+            <td>{{ weight.tare_weight if weight else 'Pending' }} kg</td>
+        </tr>
+        <tr>
+            <td>Net Weight:</td>
+            <td>{{ weight.net_weight if weight else 'Pending' }} kg</td>
+            <td>WS Number:</td>
+            <td>{{ weight.ws_number if weight else 'Pending' }}</td>
+        </tr>
+        <tr>
+            <td>Weight Date:</td>
+            <td colspan="3">{{ weight.weight_date.strftime('%Y-%m-%d') if weight else 'Pending' }}</td>
+        </tr>
+        <tr>
+            <td>WS Image:</td>
+            <td colspan="3">
+                {% if weight and weight.ws_image %}
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#wsImageModal">
+                        <i class="fas fa-image"></i> View WS Image
+                    </a>
+                {% else %}
+                    <p>No image uploaded.</p>
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+    
+    <div class="buttons">
+        <!-- Loading Actions -->
+        {% if loading %}
+            <a href="{{ url_for('edit_loading', id=loading.id) }}" class="btn btn-warning">
+                <i class="fas fa-edit"></i> Edit Loading
+            </a>
+            <form action="{{ url_for('delete_loading', id=loading.id) }}" method="POST" style="display:inline;">
+                <button type="submit" class="btn btn-danger">
+                    <i class="fas fa-trash"></i> Delete Loading
+                </button>
+            </form>
+            <a href="{{ url_for('view_loading', id=loading.id) }}" class="btn btn-info">
+                <i class="fas fa-eye"></i> View Loading
+            </a>
+        {% else %}
+            <a href="{{ url_for('add_loading', container_id=container.id) }}" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Add Loading
+            </a>
+        {% endif %}
+
+        <!-- Seal Actions -->
+        {% if seal %}
+            <a href="{{ url_for('edit_seal', id=seal.id) }}" class="btn btn-warning">
+                <i class="fas fa-edit"></i> Edit Seal
+            </a>
+            <form action="{{ url_for('delete_seal', id=seal.id) }}" method="POST" style="display:inline;">
+                <button type="submit" class="btn btn-danger">
+                    <i class="fas fa-trash"></i> Delete Seal
+                </button>
+            </form>
+            <a href="{{ url_for('view_seal', id=seal.id) }}" class="btn btn-info">
+                <i class="fas fa-eye"></i> View Seal
+            </a>
+        {% else %}
+            <a href="{{ url_for('add_seal', container_id=container.id) }}" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Add Seal
+            </a>
+        {% endif %}
+
+        <!-- Weight Actions -->
+        {% if weight %}
+            <a href="{{ url_for('edit_weight', id=weight.id) }}" class="btn btn-warning">
+                <i class="fas fa-edit"></i> Edit Weight
+            </a>
+            <form action="{{ url_for('delete_weight', id=weight.id) }}" method="POST" style="display:inline;">
+                <button type="submit" class="btn btn-danger">
+                    <i class="fas fa-trash"></i> Delete Weight
+                </button>
+            </form>
+            <a href="{{ url_for('view_weight', id=weight.id) }}" class="btn btn-info">
+                <i class="fas fa-eye"></i> View Weight
+            </a>
+        {% else %}
+            <a href="{{ url_for('add_weight', container_id=container.id) }}" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Add Weight
+            </a>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Modal for Seal Image -->
+<div class="modal fade" id="sealImageModal" tabindex="-1" aria-labelledby="sealImageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="sealImageModalLabel">Seal Image</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {% if seal and seal.seal_image %}
+                    <img src="{{ url_for('static', filename='images/seal/' ~ seal.seal_image) }}" class="img-fluid" alt="Seal Image">
+                {% else %}
+                    <p>No image available.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for WS Image -->
+<div class="modal fade" id="wsImageModal" tabindex="-1" aria-labelledby="wsImageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="wsImageModalLabel">WS Image</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {% if weight and weight.ws_image %}
+                    <img src="{{ url_for('static', filename='images/weight/' ~ weight.ws_image) }}" class="img-fluid" alt="WS Image">
+                {% else %}
+                    <p>No image available.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

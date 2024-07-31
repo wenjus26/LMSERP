@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}
+    VIEW LOADING
+{% endblock %}
+
+{% block content %}  
+
+<div class="container">    
+    <h1>Loading Details</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Attribute</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>ID</td>
+                <td>{{ loading.id }}</td>
+            </tr>
+            <tr>
+                <td>Container ID</td>
+                <td>{{ loading.container_id }}</td>
+            </tr>
+            <tr>
+                <td>Number of Bags</td>
+                <td>{{ loading.no_of_bags }}</td>
+            </tr>
+            <tr>
+                <td>Labor</td>
+                <td>{{ loading.labor }}</td>
+            </tr>
+            <tr>
+                <td>Created By</td>
+                <td>{{ loading.loading_created_by }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <a href="{{ url_for('edit_loading', id=loading.id) }}" class="btn btn-primary">Edit</a>
+    <form action="{{ url_for('delete_loading', id=loading.id) }}" method="POST" style="display:inline;">
+        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this loading?');">Delete</button>
+    </form>
+    <a href="{{ url_for('containers') }}" class="btn btn-secondary">Back to Container List</a>
+</div>
+
+{% endblock %}

@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Edit Contract - Gestion des Contrats et Réservations
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editContractModalLabel">Edit Contract</h5>
+            </div>
+            <div class="modal-body">
+                <form action="{{ url_for('edit_contract', id=contract.id) }}" method="POST">
+                    <div class="form-group">
+                        <label for="contract_number">Contract Number</label>
+                        <input type="text" class="form-control" id="contract_number" name="contract_number" value="{{ contract.contract_number }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="plant">Plant</label>
+                        <select class="form-control" id="plant" name="plant" required onchange="filterProducts()">
+                            <option value="BO" {% if contract.plant == 'BO' %}selected{% endif %}>BENIN ORGANICS</option>
+                            <option value="BAB" {% if contract.plant == 'BAB' %}selected{% endif %}>BENIN AGRIBUSINESS</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="product">Product</label>
+                        <select class="form-control" id="product" name="product" required>
+                            <!-- Options will be populated by JavaScript based on the selected plant -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="customer_id">Customer</label>
+                        <select class="form-control" id="customer_id" name="customer_id" required>
+                            <option value="">Select Customer</option>
+                            {% for customer in customers %}
+                                <option value="{{ customer.id }}" {% if customer.id == contract.customer_id %}selected{% endif %}>{{ customer.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="shipment_start_date">Shipment Start Date</label>
+                        <input type="date" class="form-control" id="shipment_start_date" name="shipment_start_date" value="{{ contract.shipment_start_date }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="shipment_end_date">Shipment End Date</label>
+                        <input type="date" class="form-control" id="shipment_end_date" name="shipment_end_date" value="{{ contract.shipment_end_date }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="destination">Destination</label>
+                        <input type="text" class="form-control" id="destination" name="destination" value="{{ contract.destination }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="bag_type">Bag Type</label>
+                        <input type="text" class="form-control" id="bag_type" name="bag_type" value="{{ contract.bag_type }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contract_qty">Contract Quantity</label>
+                        <input type="number" class="form-control" id="contract_qty" name="contract_qty" value="{{ contract.contract_qty }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="booking_planned">Booking Planned</label>
+                        <input type="text" class="form-control" id="booking_planned" name="booking_planned" value="{{ contract.booking_planned }}" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Update Contract</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function filterProducts() {
+        const plantSelect = DOCument.getElementById('plant');
+        const productSelect = DOCument.getElementById('product');
+        const selectedPlant = plantSelect.value;
+        
+        // Clear current options
+        productSelect.innerHTML = '';
+
+        // Define options based on selected plant
+        let options = [];
+        if (selectedPlant === 'BO') {
+            options = [
+                { value: 'BO-SSO', text: 'BO-SSO' },
+                { value: 'BO-SBM', text: 'BO-SBM' }
+            ];
+        } else if (selectedPlant === 'BAB') {
+            options = [
+                { value: 'BAB-SSO', text: 'BAB-SSO' },
+                { value: 'BAB-SBM', text: 'BAB-SBM' }
+            ];
+        }
+
+        // Append new options
+        for (const option of options) {
+            const newOption = DOCument.createElement('option');
+            newOption.value = option.value;
+            newOption.text = option.text;
+            if (option.value === "{{ contract.product }}") {
+                newOption.selected = true;
+            }
+            productSelect.appendChild(newOption);
+        }
+    }
+
+    // Initialize the product options based on the current plant selection
+    DOCument.addEventListener('DOMContentLoaded', function() {
+        filterProducts();
+    });
+</script>
+{% endblock %}

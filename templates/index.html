@@ -1,0 +1,298 @@
+{% extends "base.html" %}
+
+{% block title %}Home Page{% endblock %}
+
+{% block content %}
+<style>
+    /* styles.css */
+
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        color: #333;
+    }
+
+    header {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 0;
+        text-align: center;
+    }
+
+    nav ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    nav ul li {
+        display: inline;
+        margin: 0 15px;
+    }
+
+    nav ul li a {
+        color: white;
+        text-decoration: none;
+    }
+
+    .container {
+        padding: 20px;
+    }
+
+    .cards-grid {
+        display: grid;
+        gap: 15px;
+    }
+
+    .card {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 15px;
+        margin: 15px;
+        box-sizing: border-box;
+        color: #333;
+        transition: background-color 0.3s ease;
+        min-height: 120px;
+    }
+
+    .card h5 {
+        margin-top: 0;
+    }
+
+    .card ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .card ul li {
+        margin-bottom: 10px;
+    }
+
+    /* Color variables */
+    :root {
+        --color-card-1: #e3f2fd; /* Light Blue */
+        --color-card-2: #fce4ec; /* Light Pink */
+        --color-card-3: #e8f5e9; /* Light Green */
+        --color-card-4: #fffde7; /* Light Yellow */
+        --color-card-5: #d1c4e9; /* Light Purple */
+        --color-card-6: #ffccbc; /* Light Orange */
+        --color-card-7: #dbeafe; /* Light Sky Blue */
+        --color-card-8: #e6ee9c; /* Light Lime */
+        --color-card-9: #ffebee; /* Light Red */
+        --color-card-10: #f0f4c3; /* Light Lime Green */
+    }
+
+    /* Grid layout for cards */
+    @media (min-width: 1024px) {
+        .cards-grid {
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
+
+    @media (min-width: 768px) and (max-width: 1023px) {
+        .cards-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 767px) {
+        .cards-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    /* Applying colors to cards */
+    .card:nth-child(1) {
+        background-color: var(--color-card-1);
+    }
+
+    .card:nth-child(2) {
+        background-color: var(--color-card-2);
+    }
+
+    .card:nth-child(3) {
+        background-color: var(--color-card-3);
+    }
+
+    .card:nth-child(4) {
+        background-color: var(--color-card-4);
+    }
+
+    .card:nth-child(5) {
+        background-color: var(--color-card-5);
+    }
+
+    .card:nth-child(6) {
+        background-color: var(--color-card-6);
+    }
+
+    .card:nth-child(7) {
+        background-color: var(--color-card-7);
+    }
+
+    .card:nth-child(8) {
+        background-color: var(--color-card-8);
+    }
+
+    .card:nth-child(9) {
+        background-color: var(--color-card-9);
+    }
+
+    .card:nth-child(10) {
+        background-color: var(--color-card-10);
+    }
+
+    footer {
+        background-color: #4CAF50;
+        color: white;
+        text-align: center;
+        padding: 10px 0;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+    }
+
+    /* Table styles */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #4CAF50;
+        color: white;
+    }
+</style>
+
+<div class="container">
+
+
+    <h2>Welcome, {{ username }}!</h2>
+    
+    <!-- Roles Table -->
+    <table>
+        <thead>
+            <tr>
+                <th>Your Role</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for role in roles %}
+            <tr>
+                <td>{{ role }}</td>
+                <td><a href="#">Action</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Cards Grid -->
+    <div class="cards-grid">
+        <!-- Total Clients -->
+        <section class="card">
+            <h5>Total Clients</h5>
+            <p>{{ total_clients }}</p>
+        </section>
+
+        <!-- Total Contracts Per Client -->
+        <section class="card">
+            <h5>Total Contracts Per Client</h5>
+            <ul>
+                {% for name, count in total_contracts_per_client %}
+                    <li>{{ name }}: {{ count }}</li>
+                {% endfor %}
+            </ul>
+        </section>
+
+        <!-- Clients with Most Bookings -->
+        <section class="card">
+            <h5>Clients with Most Bookings</h5>
+            <ul>
+                {% for name, count in clients_with_most_bookings %}
+                    <li>{{ name }}: {{ count }}</li>
+                {% endfor %}
+            </ul>
+        </section>
+
+        <!-- Total Contracts -->
+        <section class="card">
+            <h5>Total Contracts</h5>
+            <p>{{ total_contracts }}</p>
+        </section>
+
+        <!-- Contracts Per Plant -->
+        <section class="card">
+            <h5>Contracts Per Plant</h5>
+            <ul>
+                {% for plant, count in contracts_per_plant %}
+                    <li>{{ plant }}: {{ count }}</li>
+                {% endfor %}
+            </ul>
+        </section>
+
+        <!-- Total Bookings -->
+        <section class="card">
+            <h5>Total Bookings</h5>
+            <p>{{ total_bookings }}</p>
+        </section>
+
+        <!-- Most Common Reserved Product -->
+        <section class="card">
+            <h5>Most Common Reserved Product</h5>
+            <p>{{ most_common_reserved_product[0] }} (Count: {{ most_common_reserved_product[1] }})</p>
+        </section>
+
+        <!-- Containers Per Booking -->
+        <section class="card">
+            <h5>Containers Per Booking</h5>
+            <ul>
+                {% for booking_name, count in containers_per_booking %}
+                    <li>Booking Name: {{ booking_name }} - Containers: {{ count }}</li>
+                {% endfor %}
+            </ul>
+        </section>
+
+        <!-- Containers Status Distribution -->
+        <section class="card">
+            <h5>Containers Status Distribution</h5>
+            <ul>
+                {% for status, count in containers_status_distribution %}
+                    <li>{{ status }}: {{ count }}</li>
+                {% endfor %}
+            </ul>
+        </section>
+
+        <!-- Total Net Weight -->
+        <section class="card">
+            <h5>Total Net Weight</h5>
+            <p>{{ total_net_weight | round(2) }} kg</p>
+        </section>
+
+        <!-- Total Freight Forwarders -->
+        <section class="card">
+            <h5>Total Freight Forwarders</h5>
+            <p>{{ total_freight_forwarders }}</p>
+        </section>
+
+        <!-- Forwarders with Most Bookings -->
+        <section class="card">
+            <h5>Forwarders with Most Bookings</h5>
+            <ul>
+                {% for name, count in forwarders_with_most_bookings %}
+                    <li>{{ name }}: {{ count }}</li>
+                {% endfor %}
+            </ul>
+        </section>
+    </div>
+</div>
+{% endblock %}

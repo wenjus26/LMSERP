@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Confirm Container Information
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm Container Information</h5>
+
+            </div>
+            <div class="modal-body">
+                <form action="{{ url_for('confirm_container_creation') }}" method="POST">
+                    <div class="form-group">
+                        <label for="arrival_date">Arrival Date</label>
+                        <input type="datetime-local" class="form-control" id="arrival_date" name="arrival_date"
+                               value="{{ container_data.arrival_date }}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="truck_number">Truck Number</label>
+                        <input type="text" class="form-control" id="truck_number" name="truck_number"
+                               value="{{ container_data.truck_number }}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="container_name">Container Name</label>
+                        <input type="text" class="form-control" id="container_name" name="container_name"
+                               value="{{ container_data.container_name }}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="plant">Plant</label>
+                        <input type="text" class="form-control" id="plant" name="plant"
+                               value="{{ container_data.plant }}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="product">Product</label>
+                        <input type="text" class="form-control" id="product" name="product"
+                               value="{{ container_data.product }}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="freight_forwarder">Freight Forwarder</label>
+                        <input type="text" class="form-control" id="freight_forwarder" name="freight_forwarder"
+                               value="{{ container_data.freight_forwarder }}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="booking_id">Booking</label>
+                        <select class="form-control" id="booking_id" name="booking_id" readonly>
+                            <option  value="{{ container_data.booking_id }}" readonly>{{ container_data.booking_name }}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="container_tare">Container Tare</label>
+                        <input type="number" class="form-control" id="container_tare" name="container_tare"
+                               value="{{ container_data.container_tare }}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="bags_type">Bags Type</label>
+                        <input type="text" class="form-control" id="bags_type" name="bags_type"
+                               value="{{ container_data.bags_type }}" readonly>
+                    </div>
+                    <div class="form-actions">
+                        <p>Are you sure you want to confirm this container creation?</p>
+                        <button type="submit" name="choice" value="confirm" class="btn btn-success">Confirm</button>
+                        <button type="submit" name="choice" value="cancel" class="btn btn-danger">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

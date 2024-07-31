@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Confirm Loading Info Creation - Gestion des Chargements
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Modal for confirming loading info creation -->
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmLoadingInfoModalLabel">Confirm Loading Info Creation</h5>
+            </div>
+            <div class="modal-body">
+                <form action="{{ url_for('confirm_loading_info_creation') }}" method="POST">
+
+                    <div class="form-group">
+                        <label for="bag_type">Bag Type</label>
+                        <input type="text" class="form-control" id="bag_type" name="bag_type"
+                               value="{{ loading_info_data.bag_type }}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="no_of_bags">Number of Bags</label>
+                        <input type="text" class="form-control" id="no_of_bags" name="no_of_bags"
+                               value="{{ loading_info_data.no_of_bags }}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="labour_contract">Labour Contract</label>
+                        <input type="text" class="form-control" id="labour_contract" name="labour_contract"
+                               value="{{ loading_info_data.labour_contract }}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="loading_date">Loading Date</label>
+                        <input type="date" class="form-control" id="loading_date" name="loading_date"
+                               value="{{ loading_info_data.loading_date }}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="destination">Destination</label>
+                        <input type="text" class="form-control" id="destination" name="destination"
+                               value="{{ loading_info_data.destination }}" readonly>
+                    </div>
+
+                    <!-- Hidden input field to carry any additional necessary data -->
+                    <input type="hidden" name="loading_info_id" value="{{ loading_info_data.id }}">
+
+                    <div class="form-actions">
+                        <p>Are you sure you want to confirm this loading info creation?</p>
+                        <button type="submit" name="choice" value="confirm" class="btn btn-success">Confirm</button>
+                        <button type="submit" name="choice" value="cancel" class="btn btn-danger">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

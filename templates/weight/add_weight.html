@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Add Weight
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Add Weight</h1>
+    <form action="{{ url_for('add_weight', container_id=container_id) }}" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="ws_number">WS Number</label>
+            <input type="text" class="form-control" id="ws_number" name="ws_number" required>
+        </div>
+        <div class="form-group">
+            <label for="ws_image">WS Image</label>
+            <input type="file" class="form-control" id="ws_image" name="ws_image" accept="image/*">
+        </div>
+        <div class="form-group">
+            <label for="gross_weight">Gross Weight</label>
+            <input type="number" step="any" class="form-control" id="gross_weight" name="gross_weight" required>
+        </div>
+        <div class="form-group">
+            <label for="tare_weight">Tare Weight</label>
+            <input type="number" step="any" class="form-control" id="tare_weight" name="tare_weight" required>
+        </div>
+        <div class="form-group">
+            <label for="net_weight">Net Weight</label>
+            <input type="text" class="form-control" id="net_weight" name="net_weight" readonly>
+        </div>
+        <div class="form-group">
+            <label for="weight_date">Weight Date</label>
+            <input type="date" class="form-control" id="weight_date" name="weight_date" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const grossWeightInput = document.getElementById('gross_weight');
+        const tareWeightInput = document.getElementById('tare_weight');
+        const netWeightInput = document.getElementById('net_weight');
+    
+        function updateNetWeight() {
+            const grossWeight = parseFloat(grossWeightInput.value) || 0;
+            const tareWeight = parseFloat(tareWeightInput.value) || 0;
+            const netWeight = grossWeight - tareWeight;
+    
+            // Remove trailing zeros and unnecessary decimal point
+            netWeightInput.value = netWeight.toFixed(2).replace(/\.?0+$/, '');
+        }
+    
+        grossWeightInput.addEventListener('input', updateNetWeight);
+        tareWeightInput.addEventListener('input', updateNetWeight);
+    });
+</script>
+
+{% endblock %}

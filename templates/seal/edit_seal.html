@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Edit Seal - Gestion des Scellés
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editSealModalLabel">Edit Seal</h5>
+            </div>
+            <div class="modal-body">
+                <form action="{{ url_for('edit_seal', id=seal.id) }}" method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="seal_number">Seal Number</label>
+                        <input type="text" class="form-control" id="seal_number" name="seal_number" value="{{ seal.seal_number }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="seal_image">Seal Image</label>
+                        {% if seal.seal_image %}
+                            <img src="{{ url_for('static', filename='images/seal/' + seal.seal_image) }}" alt="Seal Image" class="img-thumbnail">
+                        {% endif %}
+                        <input type="file" class="form-control" id="seal_image" name="seal_image" accept="image/*">
+                    </div>
+                    <div class="form-group">
+                        <label for="seal_date">Seal Date</label>
+                        <input type="date" class="form-control" id="seal_date" name="seal_date" value="{{ seal.seal_date }}" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </form>            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

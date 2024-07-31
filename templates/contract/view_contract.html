@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Contracts Data - Your App
+{% endblock %}
+
+{% block content %}
+<div class="container">   
+    <h2>Contracts Details Data Table</h2>
+ 
+    <table class="table table-striped table-bordered dataTable">
+        <tr>
+            <td>Plant:</td>
+            <td>{{ contract.plant }}</td>
+            <td>Products:</td>
+            <td>{{ contract.product }}</td>
+        </tr>
+        <tr>
+            <td>Contract Number:</td>
+            <td>{{ contract.contract_number }}</td>
+            <td>Customer:</td>
+            <td>{{ contract.customer.name }}</td>
+        </tr>
+        <tr>
+            <td>Shipment Start Date:</td>
+            <td>{{ contract.shipment_start_date }}</td>
+            <td>Shipment End Date:</td>
+            <td>{{ contract.shipment_end_date }}</td>
+        </tr>
+        <tr>
+            <td>Destination:</td>
+            <td>{{ contract.destination }}</td>
+            <td>Payment Term:</td>
+            <td>{{ payment_info.payment_term if payment_info else 'Pending' }}</td>
+        </tr>
+        <tr>
+            <td>Booking Planned:</td>
+            <td>{{ contract.booking_planned }}</td>
+            <td>Contract Quantity:</td>
+            <td>{{ contract.contract_qty }}</td>
+        </tr>
+        <tr>
+            <td>Booking Executed:</td>
+            <td>{{ contract.booking_loaded }}</td>
+            <td>Quantity Loaded:</td>
+            <td>{{contract.quantity_loaded }}</td>
+        </tr>
+        <tr>
+            <td>Balance:</td>
+            <td>{{ contract.booking_planned - contract.booking_loaded if contract.booking_loaded else "Pending" }}</td>
+            <td>Quantity Balance:</td>
+            <td>{{ contract.contract_qty - contract.quantity_loaded }}</td>
+        </tr>
+        <tr>
+            <td>Total N° TEU:</td>
+            <td>{{ contract.get_total_containers() }}</td>
+            <td>Contract Copy Date:</td>
+            <td>{{ date_info.contract_copy_date if date_info else 'Pending' }}</td>
+        </tr>
+        <tr>
+            <td>Signed Contract Date:</td>
+            <td>{{ date_info.signed_contract_date if date_info else 'Pending' }}</td>
+            <td>SI 1 Date:</td>
+            <td>{{ date_info.si1_date if date_info else 'Pending' }}</td>
+        </tr>
+        <tr>
+            <td>SI 2 Date:</td>
+            <td>{{ date_info.si2_date if date_info else 'Pending' }}</td>
+            <td>SI 3 Date:</td>
+            <td>{{ date_info.si3_date if date_info else 'Pending' }}</td>
+        </tr>
+        <tr>
+            <td>LC Date:</td>
+            <td>{{ date_info.lc_date if date_info else 'Pending' }}</td>
+            <td>Bags Type:</td>
+            <td>{{ remarks_info.bags_type if remarks_info else 'Pending' }}</td>
+        </tr>
+        <tr>
+            <td>First Remarks:</td>
+            <td>{{ remarks_info.first_remarks if remarks_info else 'Pending' }}</td>
+            <td>Second Remarks:</td>
+            <td>{{ remarks_info.second_remarks if remarks_info else 'Pending' }}</td>
+        </tr>
+    </table>
+
+    <br>
+    <h5>Manage Contract Information</h5>
+
+    {% if not payment_info %}
+        <a href="{{ url_for('add_payment_info', contract_id=contract.id) }}" class="btn btn-primary">Add Payment Info <i class="fas fa-plus"></i></a>
+    {% else %}
+        <a href="{{ url_for('edit_payment_info', id=payment_info.id) }}" class="btn btn-warning">Edit Payment Info <i class="fas fa-edit"></i></a>
+        <form action="{{ url_for('delete_payment_info', id=payment_info.id) }}" method="POST" style="display:inline;">
+            <button type="submit" class="btn btn-danger">Delete Payment Info <i class="fas fa-trash"></i></button>
+        </form>
+    {% endif %}
+
+    {% if not date_info %}
+        <a href="{{ url_for('add_date_info', contract_id=contract.id) }}" class="btn btn-primary">Add Date Info <i class="fas fa-plus"></i></a>
+    {% else %}
+        <a href="{{ url_for('edit_date_info', id=date_info.id) }}" class="btn btn-warning">Edit Date Info <i class="fas fa-edit"></i></a>
+        <form action="{{ url_for('delete_date_info', id=date_info.id) }}" method="POST" style="display:inline;">
+            <button type="submit" class="btn btn-danger">Delete Date Info <i class="fas fa-trash"></i></button>
+        </form>
+    {% endif %}
+    {% if not remarks_info %}
+        <a href="{{ url_for('add_remarks_info', contract_id=contract.id) }}" class="btn btn-primary">Add Remarks Info <i class="fas fa-plus"></i></a>
+    {% else %}
+        <a href="{{ url_for('edit_remarks_info', id=remarks_info.id) }}" class="btn btn-warning">Edit Remarks Info <i class="fas fa-edit"></i></a>
+        <form action="{{ url_for('delete_remarks_info', id=remarks_info.id) }}" method="POST" style="display:inline;">
+            <button type="submit" class="btn btn-danger">Delete Remarks Info <i class="fas fa-trash"></i></button>
+        </form>
+    {% endif %}
+
+    <br><br>
+    <!-- Link to add booking -->
+    <h4>Contract {{ contract.contract_number }} Bookings Data Table</h4>
+    <a href="{{ url_for('add_booking',contract_id=contract.id) }}" class="btn btn-primary"><i class="fas fa-plus"></i> Add Booking </a>
+    <br><br>
+
+    <table id="bookingsTable" class="table table-striped table-bordered dataTable" style="width:100%">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Booking Number</th>
+                <th>Freight Forwarder</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    $(document).ready(function() {
+        // Retrieve data passed from Flask
+        var bookingsData = {{ bookings | tojson | safe }};
+        // Initialize DataTables for bookings
+        $('#bookingsTable').DataTable({
+            data: bookingsData,
+            columns: [
+                { data: 'booking_created_at', title: 'Date' },
+                { data: 'booking_name', title: 'Booking Number' },
+                { data: 'freight_forwarder_name', title: 'Freight Forwarder' },
+                { data: 'status', title: 'Status' },
+                {
+                    // Actions column with Font Awesome icons
+                    data: null,
+                    title: 'Actions',
+                    render: function(data, type, row) {
+                        return `
+                            <a href="/booking/${row.id}/view" title="View" class="btn btn-primary btn-sm"><i class="fas fa-eye"></i></a>
+                            <a href="/booking/${row.id}/edit" title="Edit" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
+                            <form action="/booking/${row.id}/delete" title="Delete" method="post" style="display:inline;">
+                                <button type="submit" class="btn btn-danger btn-sm" title="Delete">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                        `;
+                    }
+                }
+            ],
+            responsive: true, 
+            scrollY: "250px", // Define scroll height if needed
+            scrollCollapse: true,
+            fixedHeader: true // Enable fixed header
+        });
+    });
+</script>
+
+{% endblock %}

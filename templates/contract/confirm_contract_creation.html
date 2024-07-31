@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Confirm Contract Information
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Modal for confirming contract creation -->
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmContractModalLabel">Confirm Contract Information</h5>
+
+            </div>
+            <div class="modal-body">
+                <form action="{{ url_for('confirm_contract_creation') }}" method="POST">
+                    <div class="form-group">
+                        <label for="contract_number">Contract Number</label>
+                        <input type="text" class="form-control" id="contract_number" name="contract_number"
+                               value="{{ contract_data.contract_number }}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="plant">Plant</label>
+                        <input type="text" class="form-control" id="plant" name="plant"
+                               value="{{ contract_data.plant }}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="product">Product</label>
+                        <input type="text" class="form-control" id="product" name="product"
+                               value="{{ contract_data.product }}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="customer_name">Customer</label>
+                        <input type="text" class="form-control" id="customer_name" name="customer_name"
+                               value="{{ contract_data.customer_name }}" readonly>
+                    </div>
+                    <input type="hidden" name="customer_id" value="{{ contract_data.customer_id }}">
+                    <div class="form-group">
+                        <label for="shipment_start_date">Shipment Start Date</label>
+                        <input type="date" class="form-control" id="shipment_start_date" name="shipment_start_date"
+                               value="{{ contract_data.shipment_start_date }}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="shipment_end_date">Shipment End Date</label>
+                        <input type="date" class="form-control" id="shipment_end_date" name="shipment_end_date"
+                               value="{{ contract_data.shipment_end_date }}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="bag_type">Bag Type</label>
+                        <input type="date" class="form-control" id="bag_type" name="bag_type"
+                               value="{{ contract_data.bag_type }}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="destination">Destination</label>
+                        <input type="text" class="form-control" id="destination" name="destination"
+                               value="{{ contract_data.destination }}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="contract_qty">Contract Quantity</label>
+                        <input type="number" class="form-control" id="contract_qty" name="contract_qty"
+                               value="{{ contract_data.contract_qty }}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="booking_planned">Booking Planned</label>
+                        <input type="text" class="form-control" id="booking_planned" name="booking_planned"
+                               value="{{ contract_data.booking_planned }}" readonly>
+                    </div>
+
+                    <div class="form-actions">
+                        <p>Are you sure you want to confirm this contract creation?</p>
+                        <button type="submit" name="choice" value="confirm" class="btn btn-success">Confirm</button>
+                        <button type="submit" name="choice" value="cancel" class="btn btn-danger">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Confirm Remarks Information
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmRemarksInfoModalLabel">Confirm Remarks Information</h5>
+            </div>
+            <div class="modal-body">
+                <form action="{{ url_for('confirm_remarks_info_creation') }}" method="POST">
+                    <div class="form-group">
+                        <label for="contract_number">Contract Number</label>
+                        <input type="text" class="form-control" id="contract_number" name="contract_number" value="{{ remarks_info_data.contract_number }}" readonly required>
+                    </div>
+                    <div class="form-group">
+                        <label for="first_remarks">First Remarks</label>
+                        <input type="text" class="form-control" id="first_remarks" name="first_remarks" value="{{ remarks_info_data.first_remarks }}" readonly required>
+                    </div>
+                    <div class="form-group">
+                        <label for="second_remarks">Second Remarks</label>
+                        <input type="text" class="form-control" id="second_remarks" name="second_remarks" value="{{ remarks_info_data.second_remarks }}" readonly required>
+                    </div>
+                    <div class="form-actions">
+                        <p>Are you sure you want to confirm these remarks?</p>
+                        <button type="submit" name="choice" value="confirm" class="btn btn-success">Confirm</button>
+                        <button type="submit" name="choice" value="cancel" class="btn btn-danger">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

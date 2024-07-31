@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Confirm Payement Information
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm Container Information</h5>
+            </div>
+            <div class="modal-body">
+                <form action="{{ url_for('confirm_payment_info_creation') }}" method="POST">
+    
+                    <div class="form-group">
+                        <label for="payment_term">Payment Term</label>
+                        <input type="text" class="form-control" id="payment_term" name="payment_term" value="{{ payment_info_data.payment_term }}" readonly required>
+                    </div>
+                    <div class="form-group">
+                        <label for="price">Price</label>
+                        <input type="text" class="form-control" id="price" name="price" value="{{ payment_info_data.price }}" readonly required>
+                    </div>
+                    <div class="form-actions">
+                        <p>Are you sure you want to confirm this payement info ?</p>
+                        <button type="submit" name="choice" value="confirm" class="btn btn-success">Confirm</button>
+                        <button type="submit" name="choice" value="cancel" class="btn btn-danger">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

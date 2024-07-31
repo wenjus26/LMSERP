@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Confirm Seal Information
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+    <!-- Modal for confirming seal information -->
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmSealModalLabel">Confirm Seal Information</h5>
+            </div>
+            <div class="modal-body">
+                <form action="{{ url_for('confirm_create_seal') }}" method="POST">
+                    <div class="form-group">
+                        <label for="seal_number">Seal Number</label>
+                        <input type="text" class="form-control" id="seal_number" name="seal_number" value="{{ seal_data.seal_number }}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="seal_image">Seal Image</label>
+                        {% if seal_data.seal_image %}
+                            <img src="{{ url_for('static', filename='images/seal/' + seal_data.seal_image) }}" alt="Seal Image" class="img-thumbnail">
+                        {% else %}
+                            <p>No image uploaded.</p>
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        <label for="seal_date">Seal Date</label>
+                        <input type="date" class="form-control" id="seal_date" name="seal_date" value="{{ seal_data.seal_date }}" readonly>
+                    </div>
+                    <input type="hidden" name="container_id" value="{{ seal_data.container_id }}">
+                    <button type="submit" name="choice" value="confirm" class="btn btn-primary">Confirm</button>
+                    <button type="submit" name="choice" value="cancel" class="btn btn-secondary">Cancel</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

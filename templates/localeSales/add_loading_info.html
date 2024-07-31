@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Add Loading Info - Gestion des Réservations
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="loadingInfoModalLabel">Add Loading Info</h3>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="{{ url_for('add_loading_info', truck_id=truck_id) }}">
+                        <div class="form-group">
+                            <label for="bag_type">Bag Type</label>
+                            <input type="text" class="form-control" id="bag_type" name="bag_type" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="no_of_bags">Number of Bags</label>
+                            <input type="number" class="form-control" id="no_of_bags" name="no_of_bags" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="labour_contract">Labour Contract</label>
+                            <input type="text" class="form-control" id="labour_contract" name="labour_contract" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="loading_date">Loading Date</label>
+                            <input type="date" class="form-control" id="loading_date" name="loading_date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="destination">Destination</label>
+                            <input type="text" class="form-control" id="destination" name="destination" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Preview</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <a href="{{ url_for('list_truck_drivers') }}" class="btn btn-secondary">Back to List</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

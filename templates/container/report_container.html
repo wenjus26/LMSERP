@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Report Container - Your App
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Report Container</h2>
+
+    <table id="containersTable" class="table table-striped table-bordered mt-4" style="width:100%">
+        <thead>
+            <tr>
+                <th>Date Loading</th>
+                <th>Container Name</th>
+                <th>Product</th>
+                <th>Booking Name</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in data %}
+            <tr>
+                <td>{{ item.loading_date }}</td>
+                <td>{{ item.container_name}}</td>
+                <td>{{ item.product }}</td>
+                <td>{{ item.booking_name }}</td>
+                <td>
+                    <a href="{{ url_for('generate_pdf_report', container_id=item.container_id) }}" class="btn btn-primary">
+                        <i class="fas fa-file-pdf"></i> Generate PDF
+                    </a>
+                    <a href="{{ url_for('generate_excel_report', container_id=item.container_id) }}" class="btn btn-success">
+                        <i class="fas fa-file-excel"></i> Export to Excel
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% block scripts %}
+<script>
+    $(document).ready(function() {
+        $('#containersTable').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    text: 'Export to Excel',
+                    className: 'btn btn-success'
+                },
+                {
+                    extend: 'pdfHtml5',
+                    text: 'Generate PDF',
+                    className: 'btn btn-primary'
+                }
+            ],
+            responsive: true, 
+            scrollCollapse: true,
+            fixedHeader: true, // Activer l'en-tête fixe
+        });
+    });
+</script>
+{% endblock %}
+{% endblock %}

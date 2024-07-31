@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Local Sales Report</title>
+    <style>
+        @page {
+            size: A4 portrait;
+            margin: 10mm;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .page {
+            page-break-after: always;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #000;
+        }
+
+        .header img {
+            width: 150px;
+            height: auto;
+        }
+
+        .container-content {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .left-content, .right-content {
+            width: 48%;
+        }
+
+        .left-content {
+            text-align: left;
+        }
+
+        .right-content {
+            text-align: right;
+        }
+
+        .image-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .image-container img {
+            width: auto;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .centered-title {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <div class="header">
+            <div>
+                {% if company == 'BO' %}
+                    <b>BENIN ORGANICS SA</b><br>
+                {% elif company == 'BAB' %}
+                    <b>BENIN AGRIBUSINESS SA</b><br>
+                {% else %}
+                    <b>Company Name</b><br>
+                {% endif %}
+                Glo-Djigbe Industrial Zone Benin<br>
+                Plot No. P1N-17A, Tangbo-Djevie<br>
+                Parcelle: ZA - 04BP 612 Djigbe
+            </div>
+            <img class="logo" src="{{ image_url }}" alt="Company Logo">
+        </div>
+        <h2 class="centered-title">Local Sales Report</h2>
+
+        <div class="container-content">
+            <div class="left-content">
+                <p><b>Truck Number:</b> {{ truck_number }}</p>
+                <p><b>Arrival Date:</b> {{ arrival_date }}</p>
+                <p><b>Driver Name:</b> {{ driver_name }}</p>
+                <p><b>Driver Phone Number:</b> {{ driver_phone_number }}</p>
+                <p><b>Loading Date:</b> {{ loading_date }}</p>
+                <p><b>Number of Bags:</b> {{ no_of_bags }}</p>
+            </div>
+            <div class="right-content">
+                <p><b>Company:</b> {{ company }}</p>
+                <p><b>Bag Type:</b> {{ bag_type }}</p>
+                <p><b>Gross Weight:</b> {{ gross_weight | format_number }}</p>
+                <p><b>Tare Weight:</b> {{ tare_weight | format_number }}</p>
+                <p><b>Net Weight:</b> {{ net_weight | format_number }}</p>
+                <p><b>WS Number:</b> {{ ws_number }}</p>
+            </div>
+        </div>
+
+        <div class="image-container">
+            <img src="{{ ws_image_path }}" alt="WS Image" style="width: {{ image_width }}px; height: {{ image_height }}px;">
+        </div>
+
+        <div class="footer">
+            <p><b>Created By:</b> {{ created_by_full_name }}</p>
+        </div>
+    </div>
+</body>
+</html>
